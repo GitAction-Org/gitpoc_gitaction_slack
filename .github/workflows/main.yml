@@ -29,24 +29,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Build status: ${{ job.status }} in the repo.",
-              "attachments": [
-                {
-                  "color": "${{ job.status == 'success' ? 'good' : 'danger' }}",
-                  "fields": [
-                    {
-                      "title": "Commit",
-                      "value": "${{ github.sha }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Author",
-                      "value": "${{ github.actor }}",
-                      "short": true
-                    }
-                  ]
-                }
-              ]
+              "text": "Build ${ { job.status == 'success' ? 'succeeded' : 'failed' }} in the repo."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
