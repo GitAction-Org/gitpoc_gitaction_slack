@@ -9,7 +9,7 @@ jobs:
         with:
           payload: |
             {
-            "text": "Git push done in the repo."
+            "text": "${{ success() && 'Build succeeded' || 'Build failed' }} in the repo."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
