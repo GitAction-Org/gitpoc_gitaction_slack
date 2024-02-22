@@ -1,29 +1,15 @@
 name: slack_github_action
-
-on:
-  push:
-    branches:
-      - main  # Adjust the branch as needed
-
+on: [push]
 jobs:
   slack_notifier:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
       - name: Send notification on Slack using Webhooks
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-              "text": "Code pushed to the repo. No build step is required."
+            "text": "Git push done in the repo."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
