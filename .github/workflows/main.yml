@@ -1,15 +1,19 @@
 name: slack_github_action
-on: [push]
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch as needed
+
 jobs:
   slack_notifier:
     runs-on: ubuntu-latest
+
     steps:
       - name: Send notification on Slack using Webhooks
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@v1.25.0  # Use the latest version
         with:
-          payload: |
-            {
-            "text": "Git push done in the repo , demogithubactionyttest"
-            }
+          payload: '{"text": "Git push done in the repo, demogithubactionyttest"}'  # Ensure valid JSON format
         env:
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # Use GitHub Secrets for secure storage
+
