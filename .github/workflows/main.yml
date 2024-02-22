@@ -18,18 +18,12 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build  # Replace with your build command
-
       - name: Send notification on Slack using Webhooks
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-              "text": "Build ${ { job.status == 'success' ? 'succeeded' : 'failed' }} in the repo."
+              "text": "Code pushed to the repo. No build step is required."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
