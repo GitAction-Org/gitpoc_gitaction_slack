@@ -1,5 +1,8 @@
 name: slack_github_action
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   slack_notifier:
     runs-on: ubuntu-latest
