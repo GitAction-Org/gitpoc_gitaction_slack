@@ -1,18 +1,27 @@
 name: slack_github_action
+
 on:
   push:
     branches:
       - master
+
 jobs:
   slack_notifier:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Build Maven project
+        run: mvn clean install  # You can adjust this command based on your Maven goals
+
       - name: Send notification on Slack using Webhooks
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-            "text": "Git push done in the repo."
+              "text": "Git push done in the repo. Maven project built successfully."
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
