@@ -1,15 +1,31 @@
 name: slack_github_action
 on: [push]
+
 jobs:
   slack_notifier:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
       - name: Send notification on Slack using Webhooks
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-            "text": "${{ success() && 'Build succeeded' || 'Build failed' }} in the repo."
+              "text": "Build status: ${{ job.status }} in the repo.\nCommit: ${{ github.sha }}\nWorkflow: ${{ github.workflow }}",
+              "channel": "#your-slack-channel"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
