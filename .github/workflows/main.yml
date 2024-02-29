@@ -3,7 +3,7 @@ name: slack_github_action
 on:
   push:
     branches:
-      - feedback_slack
+      - master
 
 jobs:
   slack_notifier:
@@ -14,13 +14,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Maven project
-        run: mvn clean install
+        run: mvn clean install  # You can adjust this command based on your Maven goals
 
-      - name: Post to a Slack channel
-        id: slack
+      - name: Send notification on Slack using Webhooks
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: 'C06L6F99PKN'
-          payload: '{"text": "GitHub build result: success"}'
+          payload: |
+            {
+              "text": "Git push done in the repo. Maven project built successfully."
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
