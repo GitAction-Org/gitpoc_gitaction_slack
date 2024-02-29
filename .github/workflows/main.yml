@@ -20,9 +20,7 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          payload: |
-            {
-              "text": "GitHub build result: ${{ job.status }}",
-            }
+          channel-id: 'C06L6F99PKN'
+          payload: '{"text": "GitHub build result: success"}'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
