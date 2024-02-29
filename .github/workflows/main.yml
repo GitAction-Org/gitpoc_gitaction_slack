@@ -3,7 +3,7 @@ name: slack_github_action
 on:
   push:
     branches:
-      - master
+      - feedback_slack
 
 jobs:
   slack_notifier:
@@ -14,28 +14,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Maven project
-        run: |
-          mvn clean install0
-          export MAVEN_EXIT_CODE=$?
+        run: mvn clean install
 
-      - name: Send notification on Slack using Webhooks - Success
-        if: ${{ success() }}
+      - name: Post to a Slack channel
+        id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          payload: |
-            {
-              "text": "Git push done in the repo. Maven project built successfully."
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Send notification on Slack using Webhooks - Failure
-        if: ${{ failure() }}
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": "Git push done in the repo. Maven build failed. Please check the build logs for details."
-            }
+          channel-id: 'C06L6F99PKN'
+          slack-message: "GitHub build result: ${{ job.status }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
